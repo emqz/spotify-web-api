@@ -9,6 +9,9 @@
 
 #login-button {
   margin: 30px;
+  background-color: rgb(30, 215, 96);
+  border: none;
+  border-radius: 6px;
 }
 
 #loggedin img {
