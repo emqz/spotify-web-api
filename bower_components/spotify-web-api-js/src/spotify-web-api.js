@@ -670,6 +670,7 @@ var SpotifyWebApi = (function() {
     };
     return _checkParamsAndPerformRequest(requestData, {}, callback);
   };
+
   /**
    * Fetches an album from the Spotify catalog.
    * See [Get an Album](https://developer.spotify.com/web-api/get-album/) on
@@ -1039,6 +1040,36 @@ var SpotifyWebApi = (function() {
       _promiseImplementation = promiseImplementation;
     }
   };
+
+  Constr.prototype.getMyTopTracks = function(options, callback) {
+    // Construct the request URL
+    var requestData = {
+        url: '/me/top/tracks',
+        params: {
+            type: 'tracks', // Type of entity to return
+            time_range: options.time_range || 'short_term', // Time frame for affinity calculation
+            limit: options.limit || 10, // Maximum number of items to return
+            offset: options.offset || 0 // Index of the first item to return
+        }
+    };
+    
+    // Perform the request and handle response
+    return this._checkParamsAndPerformRequest(requestData, options, callback);
+  };
+
+  Constr.prototype.getAudioFeaturesForTracks = function(trackIds, callback) {
+    // Construct the request URL
+    var requestData = {
+        url: '/audio-features',
+        params: {
+            ids: trackIds.join(',') // Comma-separated list of track IDs
+        }
+    };
+    
+    // Perform the request and handle response
+    return this._checkParamsAndPerformRequest(requestData, {}, callback);
+  };
+
 
   return Constr;
 })();
