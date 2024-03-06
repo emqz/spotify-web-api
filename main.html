@@ -9,17 +9,12 @@
 
     <title>Soundstyle &#127926;</title>
 
-    <!-- bootstrap.min.css -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
     <link href="css/styles.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src="flower-visualiser/sketch.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,29 +22,27 @@
   </head>
 
   <body>
-
     <div class="topnav">
       <a href="#home"><img src="soundstyle.png" style="width:200px"></a>
     </div>
 
-      <div class="soundstyle-subtitle">
-        <h1><span class="soundstyle-header">What's your soundstyle?</span></h1>
-        <p class="lead">Generate a visualisation of your music taste. <br>
-          Save it, post it, wear it!</p>
-      </div>
+    <div data-bind="with: user">
+      <h1><span data-bind="text: display_name"></span>'s soundstyle</h1>
+      <img data-bind="attr: {src: images[0].url}">
+    </div>
 
-      <!-- ko ifnot: isLoggedIn -->
-      <div id="login">
-        <div data-bind="if: loginErrorMessage">
-          <div class="alert alert-danger" data-bind="text: loginErrorMessage"></div>
+      <section class="container">
+        <div class="spotify-track-data">
+          <p>Valence: <span data-bind="text: Valence"></span></p><br>
+          <p>Energy: <span data-bind="text: Energy"></span></p><br>
+          <p>Danceability: <span data-bind="text: Danceability"></span></p><br>
+          <p>Mode: <span data-bind="text: Mode"></span></p><br>
         </div>
-        <button id="login-button" class="btn btn-primary" data-bind="click: login">Log in with Spotify</button>
-      </div>
-      <!-- /ko -->
 
-      <!-- ko if: isLoggedIn -->
-      <div id="loggedin">
-        <div data-bind="with: user"></div>
+        <div class="flower-visualiser">
+          <canvas id="flower-visualiser" width="400" height="400"></canvas>
+        </div>
+      </section>
 
         <!-- <ul data-bind="foreach: playlists">
           <li class="media playlist">
@@ -61,6 +54,12 @@
             </div>
           </li>
         </ul> -->
+        <div class ="logout-button">
+            <button id="login-button" class="btn btn-primary" data-bind="click: logout">Log out from Spotify</button>
+        </div>
+      </div>
+      <!-- /ko -->
+    </div>
 
     <!-- jQuery required for Bootstrap core JavaScript -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -73,4 +72,3 @@
     <script src="js/oauth-manager.js"></script>
     <script src="js/main.js"></script>
   </body>
-</html>

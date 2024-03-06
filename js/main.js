@@ -23,8 +23,12 @@
     };
 
     this.logout = function() {
+      if (!this.isLoggedIn()) { // Check if the user is already logged out
+        return; // If already logged out, do nothing
+      }
       localStorage.removeItem(accessTokenKey);
       this.isLoggedIn(false);
+      window.location.href = 'http://127.0.0.1:5500/index.html#';
     };
 
     this.loginError = function(errorCode) {
@@ -42,6 +46,10 @@
     this.user = ko.observable(null);
 
     this.playlists = ko.observableArray([]);
+
+    this.toptracks = ko.observableArray([]);
+
+    this.audiofeatures = ko.observableArray([]);
   };
 
   var viewModel = new ViewModel();
@@ -53,6 +61,7 @@
   function onTokenReceived(token) {
     viewModel.isLoggedIn(true);
     localStorage.setItem(accessTokenKey, token);
+    window.location.href = 'main.html';
 
     // do something with the token
     spotifyApi.setAccessToken(token);
@@ -63,6 +72,52 @@
         console.log(playlists);
         viewModel.playlists(playlists.items);
       });
+
+      spotifyApi.getMyTopTracks(data.id).then(function(toptracks) {
+        console.log(toptracks);
+        viewModel.toptracks(toptracks.items);
+    
+        var trackIds = toptracks.items.map(function(track) {
+            return track.id;
+        });
+    
+        // Call the API to get audio features for the top tracks
+        spotifyApi.getAudioFeaturesForTracks(trackIds).then(function(audiofeatures) {
+            console.log(audiofeatures);
+            var features = audiofeatures.audio_features;
+    
+            // Extracting the desired properties from each track's audio features
+            var danceability = features.map(function(feature) {
+                return feature.danceability;
+            });
+            var mode = features.map(function(feature) {
+                return feature.mode;
+            });
+            var energy = features.map(function(feature) {
+                return feature.energy;
+            });
+            var valence = features.map(function(feature) {
+                return feature.valence;
+            });
+    
+            // Now you can use these arrays (danceability, mode, energy, valence) as needed
+            console.log('Danceability:', danceability);
+            console.log('Mode:', mode);
+            console.log('Energy:', energy);
+            console.log('Valence:', valence);
+            
+            // Optionally, you can update your ViewModel with these arrays
+            viewModel.danceability = ko.observableArray(danceability);
+            viewModel.mode = ko.observableArray(mode);
+            viewModel.energy = ko.observableArray(energy);
+            viewModel.valence = ko.observableArray(valence);
+        }).catch(function(error) {
+            console.error('Error getting audio features:', error);
+        });
+    }).catch(function(error) {
+        console.error('Error getting top tracks:', error);
+    });    
+
     });
   }
 
@@ -79,3 +134,4 @@
   initAccessToken();
 
 })();
+

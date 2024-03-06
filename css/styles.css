@@ -1,30 +1,74 @@
-.starter-template {
-  padding: 40px 15px;
+.topnav {
+  background:rgb(204, 223, 122);
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.soundstyle-header {
+  padding: 150px 15px 30px;
   text-align: center;
+  font-family: "TT Rounds Neue Trial", sans-serif;
+  font-weight: bold;
+}
+
+.soundstyle-subtitle {
+  padding: 150px 15px 30px;
+  text-align: center;
+  font-family: "Krub", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 #login, #loggedin {
   text-align: center;
+  font-family: "Krub", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 #login-button {
   margin: 30px;
-  background-color: rgb(30, 215, 96);
+  background-color: rgb(0, 0, 0);
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
+  font-family: "TT Rounds Neue Trial", sans-serif;
+  font-weight: bold;
 }
 
 #loggedin img {
   margin: 0 auto;
 }
 
-.playlist {
-  width: 400px;
-  text-align: left;
-  margin: 10px auto;
-  display: inline-block;
+.container {
+  margin-top: 100px;
 }
 
-.playlist img {
-  object-fit: cover;
+.spotify-track-data {
+  float: right;
+  text-align: left;
+  padding: 80px;
+  font-size: 16px;
+  font-family: "Krub", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  background:rgb(204, 223, 122);
+  border-radius: 50px;
+}
+
+.flower-visualiser {
+  float: left;
+  padding: 80px;
+  background:rgb(204, 223, 122);
+  border-radius: 50px;
+}
+
+.logout-button {
+  padding: 30px 15px 30px;
+  text-align: center;
 }
