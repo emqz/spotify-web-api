@@ -27,11 +27,41 @@ if (accessToken && (state === undefined || state !== storedState)) {
       success: false,
       message: 'error'
     }), OAuthConfig.host);
-  } else {
-    localStorage.removeItem(OAuthConfig.stateKey);
-    target.postMessage(JSON.stringify({
-      type: 'token',
-      success: true,
-      token: accessToken
-    }), OAuthConfig.host);
-  }
+} else {
+  localStorage.removeItem(OAuthConfig.stateKey);
+  target.postMessage(JSON.stringify({
+    type: 'token',
+    success: true,
+    token: accessToken
+  }), OAuthConfig.host);
+}
+
+// Check if the access token is present
+if (accessToken) {
+  // Log the access token to the console for testing
+  console.log('Access Token:', accessToken);
+
+  // Use the access token to make an API request to Spotify
+  fetch('https://api.spotify.com/v1/me', {
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to fetch user data');
+    }
+    return response.json();
+  })
+  .then(userData => {
+    // Log the user data to the console for testing
+    console.log('User Data:', userData);
+  })
+  .catch(error => {
+    // Handle any errors that occur during the API request
+    console.error('Error fetching user data:', error);
+  });
+} else {
+  // Handle case where access token is not present
+  console.error('Access token is missing');
+}
