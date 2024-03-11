@@ -1,6 +1,9 @@
 (function() {
   'use strict';
 
+  // Declare mean variables globally
+  var meanDanceability, meanValence, meanEnergy, meanMode;
+
   var ViewModel = function() {
     var self = this;
 
@@ -14,7 +17,7 @@
     // Function to fetch the user's top tracks
     this.getTopTracks = function(token) {
       return new Promise(function(resolve, reject) {
-        fetch('https://api.spotify.com/v1/me/top/tracks?limit=10', {
+        fetch('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10', {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + token
@@ -56,10 +59,10 @@
         })
         .then(function(audioFeatures) {
           // Calculate mean values
-          var meanDanceability = 0;
-          var meanValence = 0;
-          var meanEnergy = 0;
-          var meanMode = 0;
+          meanDanceability = 0;
+          meanValence = 0;
+          meanEnergy = 0;
+          meanMode = 0;
 
           audioFeatures.audio_features.forEach(function(feature) {
             meanDanceability += feature.danceability;
@@ -73,17 +76,17 @@
           meanEnergy /= audioFeatures.audio_features.length;
           meanMode /= audioFeatures.audio_features.length;
 
-          // Set mean values as window variables
-          window.meanDanceability = meanDanceability;
-          window.meanValence = meanValence;
-          window.meanEnergy = meanEnergy;
-          window.meanMode = meanMode;
-
           // Log mean values to console
           console.log('Mean Danceability:', meanDanceability);
           console.log('Mean Valence:', meanValence);
           console.log('Mean Energy:', meanEnergy);
           console.log('Mean Mode:', meanMode);
+
+          // Export mean audio features
+          self.meanDanceability = meanDanceability;
+          self.meanValence = meanValence;
+          self.meanEnergy = meanEnergy;
+          self.meanMode = meanMode;
         })
         .catch(function(error) {
           console.error('Error fetching audio features:', error);
@@ -111,11 +114,9 @@
     this.logout = function() {
       localStorage.removeItem('accessTokenKey');
       self.isLoggedIn(false);
-      // Clear user data from the ViewModel
       self.user(null);
       self.topTracks([]);
       self.display_name('');
-      // Redirect to the login page
       window.location.href = 'index.html'; 
     };
 
@@ -196,4 +197,6 @@
   // Apply bindings after ViewModel instantiation
   ko.applyBindings(viewModel);
 
+  // Make ViewModel accessible globally
+  window.viewModel = viewModel;
 })();
