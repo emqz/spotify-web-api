@@ -9,17 +9,9 @@
 
     <title>Soundstyle &#127926;</title>
 
-    <!-- bootstrap.min.css -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
     <link href="css/styles.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,34 +30,21 @@
           Save it, post it, wear it!</p>
       </div>
 
-      <!-- ko ifnot: isLoggedIn -->
       <div id="login">
         <div data-bind="if: loginErrorMessage">
           <div class="alert alert-danger" data-bind="text: loginErrorMessage"></div>
         </div>
-        <button id="login-button" class="btn btn-primary" data-bind="click: login">Log in with Spotify</button>
+        <button id="login-button" data-bind="click: login">Log in with Spotify
+          <span class="icon-wrapper">
+            <img src="Spotify_icon.svg.png" style="width:25px; vertical-align: middle;">
+          </span>
+        </button>
       </div>
-      <!-- /ko -->
 
-      <!-- ko if: isLoggedIn -->
       <div id="loggedin">
         <div data-bind="with: user"></div>
 
-        <!-- <ul data-bind="foreach: playlists">
-          <li class="media playlist">
-            <div class="media-left">
-              <img data-bind="attr: {src: images.length ? images[0].url : ''}" width="200" height="200" />
-            </div>
-            <div class="media-body">
-              <div class="media-heading" data-bind="text:name"></div>
-            </div>
-          </li>
-        </ul> -->
-
-    <!-- jQuery required for Bootstrap core JavaScript -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <!-- This file would be available as a vendor dependency in your local project if you're using Bower or Composer -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/knockout/dist/knockout.js"></script>
     <script src="bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>

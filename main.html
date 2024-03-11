@@ -13,12 +13,17 @@
 
     <link href="css/styles.css" rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
-    <script src="flower-visualiser/sketch.js" defer></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Krub:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+      body {
+        background-image: url("gradient.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    </style>
   </head>
 
   <body>
@@ -26,49 +31,53 @@
       <a href="#home"><img src="soundstyle.png" style="width:200px"></a>
     </div>
 
-    <div data-bind="with: user">
-      <h1><span data-bind="text: display_name"></span>'s soundstyle</h1>
-      <img data-bind="attr: {src: images[0].url}">
+    <div class ="logout">
+      <button id="logout-button" data-bind="click: logout">Log out</button>
     </div>
 
       <section class="container">
-        <div class="spotify-track-data">
-          <p>Valence: <span data-bind="text: Valence"></span></p><br>
-          <p>Energy: <span data-bind="text: Energy"></span></p><br>
-          <p>Danceability: <span data-bind="text: Danceability"></span></p><br>
-          <p>Mode: <span data-bind="text: Mode"></span></p><br>
+        <div class="flower-visualiser">
+          <h1><span class="sub-header"><span data-bind="text: display_name"></span>'s soundstyle</span></h1>
+          <div id="flower-visualiser" width="500px" height="500px" border-radius="50px"></div>
         </div>
 
-        <div class="flower-visualiser">
-          <canvas id="flower-visualiser" width="400" height="400"></canvas>
+        <div class="spotify-track-data">
+          <h1><span class="sub-header">Your stats</span></h1>
+          <p>Valence: <span data-bind="text: meanValence"></span><br>
+            <span class="data-subtitle">
+              How happy your tracks are.
+            </span>
+            <img src="valence.png" style="padding: 20px 10px 0px">
+          </p><br>
+          <p>Energy: <span data-bind="text: meanEnergy"></span><br>
+            <span class="data-subtitle">
+              The average modality (major or minor key) of your tracks.
+            </span>
+            <img src="energy.png" style="padding: 20px 10px 0px">
+          </p><br>
+          <p>Danceability: <span data-bind="text: meanDanceability"></span><br>
+            <span class="data-subtitle">
+              How suitable your tracks are for dancing.
+            </span>
+            <img src="danceability.png" style="padding: 20px 10px 0px">
+          </p><br>
+          <p>Mode: <span data-bind="text: meanMode"></span><br>
+            <span class="data-subtitle">
+              How energetic your tracks are.
+            </span>
+            <img src="mode1.png" style="padding: 20px 10px">
+            <img src="mode2.png" style="padding: 5px 10px 0px">
+          </p><br>
         </div>
       </section>
 
-        <!-- <ul data-bind="foreach: playlists">
-          <li class="media playlist">
-            <div class="media-left">
-              <img data-bind="attr: {src: images.length ? images[0].url : ''}" width="200" height="200" />
-            </div>
-            <div class="media-body">
-              <div class="media-heading" data-bind="text:name"></div>
-            </div>
-          </li>
-        </ul> -->
-        <div class ="logout-button">
-            <button id="login-button" class="btn btn-primary" data-bind="click: logout">Log out from Spotify</button>
-        </div>
-      </div>
-      <!-- /ko -->
-    </div>
-
-    <!-- jQuery required for Bootstrap core JavaScript -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <!-- This file would be available as a vendor dependency in your local project if you're using Bower or Composer -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/knockout/dist/knockout.js"></script>
     <script src="bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>
     <script src="js/oauth-config.js"></script>
     <script src="js/oauth-manager.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src="flower-visualiser/sketch.js" defer></script>
   </body>
