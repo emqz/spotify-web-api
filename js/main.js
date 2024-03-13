@@ -14,6 +14,11 @@
     this.topTracks = ko.observableArray([]);
     this.display_name = ko.observable('');
 
+    this.meanDanceability = ko.observable(0);
+    this.meanValence = ko.observable(0);
+    this.meanEnergy = ko.observable(0);
+    this.meanMode = ko.observable(0);
+
     // Function to fetch the user's top tracks
     this.getTopTracks = function(token) {
       return new Promise(function(resolve, reject) {
@@ -59,39 +64,65 @@
         })
         .then(function(audioFeatures) {
           // Calculate mean values
-          meanDanceability = 0;
-          meanValence = 0;
-          meanEnergy = 0;
-          meanMode = 0;
+          var totalDanceability = 0;
+          var totalValence = 0;
+          var totalEnergy = 0;
+          var totalMode = 0;
 
           audioFeatures.audio_features.forEach(function(feature) {
-            meanDanceability += feature.danceability;
-            meanValence += feature.valence;
-            meanEnergy += feature.energy;
-            meanMode += feature.mode;
-          });
+            totalDanceability += feature.danceability;
+            totalValence += feature.valence;
+            totalEnergy += feature.energy;
+            totalMode += feature.mode;
+        });
 
-          meanDanceability /= audioFeatures.audio_features.length;
-          meanValence /= audioFeatures.audio_features.length;
-          meanEnergy /= audioFeatures.audio_features.length;
-          meanMode /= audioFeatures.audio_features.length;
+        var numTracks = audioFeatures.audio_features.length;
 
-          // Log mean values to console
-          console.log('Mean Danceability:', meanDanceability);
-          console.log('Mean Valence:', meanValence);
-          console.log('Mean Energy:', meanEnergy);
-          console.log('Mean Mode:', meanMode);
+            // Calculate mean values
+            var meanDanceability = totalDanceability / numTracks;
+            var meanValence = totalValence / numTracks;
+            var meanEnergy = totalEnergy / numTracks;
+            var meanMode = totalMode / numTracks;
 
-          // Export mean audio features
-          self.meanDanceability = meanDanceability;
-          self.meanValence = meanValence;
-          self.meanEnergy = meanEnergy;
-          self.meanMode = meanMode;
+            // Log mean values to console
+            console.log('Mean Danceability:', meanDanceability);
+            console.log('Mean Valence:', meanValence);
+            console.log('Mean Energy:', meanEnergy);
+            console.log('Mean Mode:', meanMode);
+
+            meanDanceability = meanDanceability.toFixed(2);
+            meanValence = meanValence.toFixed(2);
+            meanEnergy = meanEnergy.toFixed(2);
+            meanMode = meanMode.toFixed(2);
+
+            // Update ViewModel's mean variables
+            self.meanDanceability(meanDanceability);
+            self.meanValence(meanValence);
+            self.meanEnergy(meanEnergy);
+            self.meanMode(meanMode);
+
+            window.meanDanceability = meanDanceability;
+            window.meanValence = meanValence;
+            window.meanEnergy = meanEnergy;
+            window.meanMode = meanMode;
+
+          // Load sketch.js after mean variables are calculated
+          loadSketch();
         })
         .catch(function(error) {
           console.error('Error fetching audio features:', error);
         });
     };
+
+    // Function to load sketch.js after mean variables are calculated
+    function loadSketch() {
+    var script = document.createElement('script');
+    script.src = 'flower-visualiser/sketch.js';
+    script.onload = function() {
+      window.setup(meanDanceability, meanValence, meanEnergy, meanMode);
+    };
+    document.body.appendChild(script);
+}
 
     // Function to handle login
     this.login = function() {
@@ -130,6 +161,26 @@
           self.loginErrorMessage('There was an error trying to obtain authorization. Please, try it again later.');
       }
     };
+
+// Function to get mean danceability
+this.getMeanDanceability = function() {
+  return self.meanDanceability();
+};
+
+// Function to get mean valence
+this.getMeanValence = function() {
+  return self.meanValence();
+};
+
+// Function to get mean energy
+this.getMeanEnergy = function() {
+  return self.meanEnergy();
+};
+
+// Function to get mean mode
+this.getMeanMode = function() {
+  return self.meanMode();
+};
   };
 
   // Create an instance of the ViewModel
