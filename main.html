@@ -19,7 +19,7 @@
 
     <style>
       body {
-        background-image: url("gradient.png");
+        background-image: url("assets/gradient.png");
         background-size: cover;
         background-repeat: no-repeat;
       }
@@ -28,7 +28,7 @@
 
   <body>
     <div class="topnav">
-      <a href="#home"><img src="soundstyle.png" style="width:200px"></a>
+      <a href="#home"><img src="assets/soundstyle.png" style="width:200px"></a>
     </div>
 
     <div class ="logout">
@@ -37,37 +37,65 @@
 
       <section class="container">
         <div class="flower-visualiser">
-          <h1><span class="sub-header"><span data-bind="text: display_name"></span>'s soundstyle</span></h1>
-          <div id="flower-visualiser" width="500px" height="500px" border-radius="50px"></div>
+          <h1 class="flower-visualiser-header"><span class="sub-header"><span data-bind="text: display_name"></span>'s soundstyle </span></h1>
+          <div id="flower-visualiser" width="500px" height="500px"></div>
         </div>
 
         <div class="spotify-track-data">
           <h1><span class="sub-header">Your stats</span></h1>
-          <p>Valence: <span data-bind="text: meanValence"></span><br>
+
+          <p>Happiness: <span class="data-bind-values" data-bind="text: meanValence"></span><br>
             <span class="data-subtitle">
-              How happy your tracks are.
+              How positive your tracks are, from a scale of 0 (sad) to 1 (happy).
             </span>
-            <img src="valence.png" style="padding: 20px 10px 0px">
-          </p><br>
-          <p>Energy: <span data-bind="text: meanEnergy"></span><br>
+          </p>
+          
+          <div class="indicator-container">
+            <img src="assets/valence.png" style="padding: 20px 10px 0px">
+            <div id="valence-indicator" class="overlay" width="256px" height="20px"></div>
+          </div>
+          <br>
+
+          <p>Energy: <span class="data-bind-values" data-bind="text: meanEnergy"></span><br>
             <span class="data-subtitle">
-              The average modality (major or minor key) of your tracks.
+              How energetic your tracks are, from a scale of 0 (low energy) to 1 (high energy).
             </span>
-            <img src="energy.png" style="padding: 20px 10px 0px">
-          </p><br>
-          <p>Danceability: <span data-bind="text: meanDanceability"></span><br>
+          </p>
+
+          <div class="indicator-container">
+            <img src="assets/energy.png" style="padding: 20px 10px 0px">
+            <div id="energy-indicator" class="overlay" width="256px" height="20px"></div>
+          </div>
+          <br>
+
+          <p>Danceability: <span class="data-bind-values" data-bind="text: meanDanceability"></span><br>
             <span class="data-subtitle">
-              How suitable your tracks are for dancing.
+              How suitable your tracks are for dancing, from a scale of 0 (least danceable) to 1 (most danceable).
             </span>
-            <img src="danceability.png" style="padding: 20px 10px 0px">
-          </p><br>
-          <p>Mode: <span data-bind="text: meanMode"></span><br>
+          </p>
+
+          <div class="indicator-container">
+            <img src="assets/danceability.png" id="danceability-image" style="padding: 20px 10px 0px">
+            <div id="danceability-indicator" class="overlay" width="256px" height="20px"></div>
+          </div>
+          <br>
+
+          <p>Mode: <span class="data-bind-values" data-bind="text: meanMode"></span><br>
             <span class="data-subtitle">
-              How energetic your tracks are.
+              The average modality (major or minor key) of your tracks, from a scale of 0 (most of your songs are in minor key) to 1 (most of your songs are in major key).
             </span>
-            <img src="mode1.png" style="padding: 20px 10px">
-            <img src="mode2.png" style="padding: 5px 10px 0px">
-          </p><br>
+          </p>
+
+          <div class="indicator-container">
+            <img src="assets/mode1.png" style="padding: 20px 10px">
+            <div id="mode1-indicator" class="overlay" width="256px" height="20px"></div>
+          </div>
+          
+          <div class="indicator-container">
+            <img src="assets/mode2.png" style="padding: 20px 10px">
+            <div id="mode2-indicator" class="overlay" width="256px" height="20px"></div>
+          </div>
+
         </div>
       </section>
 
@@ -79,5 +107,10 @@
     <script src="js/oauth-manager.js"></script>
     <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
-    <script src="flower-visualiser/sketch.js" defer></script>
+    <script>
+      var meanDanceability = 0.5;
+      var meanValence = 0.5;
+      var meanEnergy = 0.5;
+      var meanMode = 0.5;
+    </script>
   </body>
