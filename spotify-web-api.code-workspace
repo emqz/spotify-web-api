@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "spotify-web-api",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5502,
+		"liveServer.settings.multiRootWorkspaceName": "flower_visualiser_final_2024_03_01_10_12_32"
+	}
+}

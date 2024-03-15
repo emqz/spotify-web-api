@@ -133,7 +133,6 @@
           ]
         }).then(function(token) {
           onTokenReceived(token);
-          // Redirect to main.html after successful login
           window.location.href = 'main.html';
         })
         .catch(function(error) {
